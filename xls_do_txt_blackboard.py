@@ -24,12 +24,11 @@ if len(sys.argv) != 3:
     print("Podano nieprawidlowa liczbe argumentow wejsciowych")
     print("Nie wykonano programu. Prosze poprawic input")
 else:
-
     # z dokumentacji wynika, ze ma byc tab-delimited text file
     # bez header row, bez blank linesow miedzy wierszami
     # 1 pole w wierszu okresla typ pytania, pola oddzielone TAB
-    # przyklad (spacji spacje wstawiono dla lepszej czytelnosci):
-    # MC TAB question_text TAB answ1_text TAB correct|incorrect TAB answ2_text TAB correct| incorrect
+    # przyklad (spacje wstawiono dla lepszej czytelnosci):
+    # MC TAB question_text TAB answ1_text TAB correct|incorrect TAB answ2_text TAB correct|incorrect
 
     quest_type = "MC"
     field_sep = "\t"
@@ -39,10 +38,12 @@ else:
     def tworz_pytanie(start, stop):
         """
         wyodrebnia pytanie z obiektu pd.DataFrame o nazwie cur_arkusz
+        i zwraca je jako string w formacie rozpoznawanym przez blackboard
+
         Input:
         ---
-        start - Int (inclusive) - indeks gdzie zaczyna sie dane pytanie
-        stop - Int (exclusive) - indeks gdzie konczy sie dane pytanie
+        start - Int (inclusive) - indeks (wiersz) gdzie zaczyna sie dane pytanie
+        stop - Int (exclusive) - indeks (wiersz) gdzie konczy sie dane pytanie
 
         Output:
         ---
@@ -75,7 +76,6 @@ else:
             na_values="",
         )
         cur_arkusz = cur_arkusz.replace(np.nan, "", regex=True)
-        cur_arkusz.head()  # do us
 
         # wybieramy niepuste pytania, tj. te wiersze gdzie
         # kolumna "odpowiedzi" nie jest pusta
@@ -93,6 +93,7 @@ else:
         pocz_pytan.append(cur_arkusz.shape[0])  # dodaje id ost wiersz-a
 
         tekst_wynikowy = ""
+        # -1, bo pod tym indeksem (row) jest koncowka ost pytania (ost odp)
         for i in range(len(pocz_pytan) - 1):
             tekst_wynikowy += tworz_pytanie(
                 start=pocz_pytan[i], stop=pocz_pytan[i + 1]
