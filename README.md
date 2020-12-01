@@ -21,7 +21,7 @@ Output:
 - arkusz1.txt
 - ...
 
-Plik powinien dzialac poprawnie, ale nie udzielam zadnych gwarancji
+Program (*.py) powinien dzialac poprawnie, ale nie udzielam zadnych gwarancji
 
 Jelsli na podstawie informacji w tym pliku, przegladania pliku *.xls oraz
 czytania kodu Python-a nie potrafisz go uruchomic, to nic nie ruszaj i
