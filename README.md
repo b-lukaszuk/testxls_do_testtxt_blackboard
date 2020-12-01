@@ -23,8 +23,6 @@ Output:
 
 Plik powinien dzialac poprawnie, ale nie udzielam zadnych gwarancji
 
-Wymaga
-
 Jelsli na podstawie informacji w tym pliku, przegladania pliku *.xls oraz
 czytania kodu Python-a nie potrafisz go uruchomic, to nic nie ruszaj i
 popros o pomoc autora :)
