@@ -13,7 +13,7 @@ Zawartosc:
 
 Wywolanie z bash-a:
 ```bash
-python3.8.5 xls_do_blackboard.py plik_xlsx ile_arkuszy
+python3.8 xls_do_blackboard.py plik_xlsx ile_arkuszy
 ```
 
 Output:
