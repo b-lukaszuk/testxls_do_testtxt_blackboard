@@ -28,7 +28,7 @@ czytania kodu Python-a nie potrafisz go uruchomic, to nic nie ruszaj i
 popros o pomoc autora :)
 
 Po utworzeniu testu w blackboardzie, wczytujemy pliki z pytaniami
-po kliknieciu "Import" ("Przekaż pytania")
+po kliknieciu "Import" ("Przekaż pytania"), a potem "Submit" ("Wyślij")
 
 ## Do użytku własnego, nie powinno być używane przez nikogo innego.
 ## For personal use only, should not be used by anyone else.
