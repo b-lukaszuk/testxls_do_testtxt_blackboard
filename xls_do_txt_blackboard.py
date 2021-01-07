@@ -56,7 +56,8 @@ else:
             + field_sep
         )
         for i in range(start, stop):
-            pytanie += cur_arkusz.loc[i, "odpowiedzi"] + field_sep
+            # str(), bo w odpowiedzi moga byc same cyferki (inty, floaty)
+            pytanie += str(cur_arkusz.loc[i, "odpowiedzi"]) + field_sep
             if cur_arkusz.loc[i, "prawidłowa*"] == 1:
                 pytanie += "correct" + field_sep
             else:
@@ -81,14 +82,19 @@ else:
         # kolumna "odpowiedzi" nie jest pusta
         niepuste = []
         for i in range(cur_arkusz.shape[0]):
-            if cur_arkusz.loc[i, "odpowiedzi"] != "":
+            # str() bo w odp moga byc same cyferki (inty, floaty)
+            # str.strip(), bo po edycji mogly zostac np. 3 spacje
+            if str(cur_arkusz.loc[i, "odpowiedzi"]).strip() != "":
                 niepuste.append(i)
         cur_arkusz = cur_arkusz.iloc[niepuste, :]  # wybranie niepustych
+        # reset indeksu, cyferki po kolei wym. przez pd.DataFrame.loc[] ponizej
+        cur_arkusz = cur_arkusz.reset_index()
 
         # wybieramy indeksy poczatkow pytan
         pocz_pytan = []
         for i in range(cur_arkusz.shape[0]):
-            if cur_arkusz.loc[i, "nr_pyt"] != "":
+            # str.strip(), bo po edycji mogly zostac np. 3 spacje
+            if str(cur_arkusz.loc[i, "treść pytania"]).strip() != "":
                 pocz_pytan.append(i)
         pocz_pytan.append(cur_arkusz.shape[0])  # dodaje id ost wiersz-a
 
