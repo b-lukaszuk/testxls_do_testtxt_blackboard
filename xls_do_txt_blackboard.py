@@ -57,11 +57,15 @@ else:
         )
         for i in range(start, stop):
             # str(), bo w odpowiedzi moga byc same cyferki (inty, floaty)
-            pytanie += str(cur_arkusz.loc[i, "odpowiedzi"]) + field_sep
-            if cur_arkusz.loc[i, "prawidłowa*"] == 1:
-                pytanie += "correct" + field_sep
-            else:
-                pytanie += "incorrect" + field_sep
+            # wstaw jesli pole z odpowiedzia nie jest puste
+            if str(cur_arkusz.loc[i, "odpowiedzi"]).strip() != "":
+                pytanie += (
+                    str(cur_arkusz.loc[i, "odpowiedzi"]).strip() + field_sep
+                )
+                if cur_arkusz.loc[i, "prawidłowa*"] == 1:
+                    pytanie += "correct" + field_sep
+                else:
+                    pytanie += "incorrect" + field_sep
         return pytanie + "\n"
 
     nazwa_pliku = sys.argv[1]
@@ -84,7 +88,11 @@ else:
         for i in range(cur_arkusz.shape[0]):
             # str() bo w odp moga byc same cyferki (inty, floaty)
             # str.strip(), bo po edycji mogly zostac np. 3 spacje
-            if str(cur_arkusz.loc[i, "odpowiedzi"]).strip() != "":
+            # niepuste jesli jest komorka z pytaniem lub z odpowiedzia
+            if (
+                str(cur_arkusz.loc[i, "odpowiedzi"]).strip() != ""
+                or str(cur_arkusz.loc[i, "treść pytania"]).strip() != ""
+            ):
                 niepuste.append(i)
         cur_arkusz = cur_arkusz.iloc[niepuste, :]  # wybranie niepustych
         # reset indeksu, cyferki po kolei wym. przez pd.DataFrame.loc[] ponizej
