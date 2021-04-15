@@ -14,8 +14,6 @@
 # uzyto Python 3.8.5
 # pisano w Emacs >= 26
 # na GNU/Linux Mint
-import pandas as pd
-import numpy as np
 import sys
 import codecs
 
@@ -83,7 +81,7 @@ else:
         cur_arkusz = cur_arkusz.replace(np.nan, "", regex=True)
 
         # wybieramy niepuste pytania, tj. te wiersze gdzie
-        # kolumna "odpowiedzi" nie jest pusta
+        # kolumna "odpowiedzi" lub komorka "treść pytania" nie jest pusta
         niepuste = []
         for i in range(cur_arkusz.shape[0]):
             # str() bo w odp moga byc same cyferki (inty, floaty)
