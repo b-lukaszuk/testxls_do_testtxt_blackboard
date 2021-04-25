@@ -14,9 +14,6 @@
 # uzyto Python 3.8.5
 # pisano w Emacs >= 26
 # na GNU/Linux Mint
-import sys
-import codecs
-
 
 if len(sys.argv) != 3:
     print("Podano nieprawidlowa liczbe argumentow wejsciowych")
@@ -26,7 +23,7 @@ else:
     # bez header row, bez blank linesow miedzy wierszami
     # 1 pole w wierszu okresla typ pytania, pola oddzielone TAB
     # przyklad (spacje wstawiono dla lepszej czytelnosci):
-    # MC TAB question_text TAB answ1_text TAB correct|incorrect TAB answ2_text TAB correct|incorrect
+    # MC TAB questText TAB answ1Text TAB correct|incorrect TAB answ2Text TAB correct|incorrect
 
     quest_type = "MC"
     field_sep = "\t"
