@@ -32,7 +32,7 @@ else:
 
     def tworz_pytanie(start, stop):
         """
-        wyodrebnia pytanie z obiektu pd.DataFrame o nazwie cur_arkusz
+        wyodrebnia pytanie z obiektu DataFrame o nazwie cur_arkusz
         i zwraca je jako string w formacie rozpoznawanym przez blackboard
 
         Input:
@@ -69,13 +69,13 @@ else:
 
     for arkusz_id in range(l_arkuszy):
         # wczytuje puste pola jako NaN
-        cur_arkusz = pd.read_excel(
+        cur_arkusz = read_excel(
             io=nazwa_pliku,
             sheet_name=arkusz_id,
             usecols=nazwy_kol,
             na_values="",
         )
-        cur_arkusz = cur_arkusz.replace(np.nan, "", regex=True)
+        cur_arkusz = cur_arkusz.replace(nan, "", regex=True)
 
         # wybieramy niepuste pytania, tj. te wiersze gdzie
         # kolumna "odpowiedzi" lub komorka "treść pytania" nie jest pusta
@@ -90,7 +90,7 @@ else:
             ):
                 niepuste.append(i)
         cur_arkusz = cur_arkusz.iloc[niepuste, :]  # wybranie niepustych
-        # reset indeksu, cyferki po kolei wym. przez pd.DataFrame.loc[] ponizej
+        # reset indeksu, cyferki po kolei wym. przez DataFrame.loc[] ponizej
         cur_arkusz = cur_arkusz.reset_index()
 
         # wybieramy indeksy poczatkow pytan
