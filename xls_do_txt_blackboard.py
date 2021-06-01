@@ -14,6 +14,11 @@
 # uzyto Python 3.8.5
 # pisano w Emacs >= 26
 # na GNU/Linux Mint
+import pandas as pd
+import numpy as np
+import sys
+import codecs
+
 
 if len(sys.argv) != 3:
     print("Podano nieprawidlowa liczbe argumentow wejsciowych")
@@ -23,7 +28,7 @@ else:
     # bez header row, bez blank linesow miedzy wierszami
     # 1 pole w wierszu okresla typ pytania, pola oddzielone TAB
     # przyklad (spacje wstawiono dla lepszej czytelnosci):
-    # MC TAB questText TAB answ1Text TAB correct|incorrect TAB answ2Text TAB correct|incorrect
+    # MC TAB question_text TAB answ1_text TAB correct|incorrect TAB answ2_text TAB correct|incorrect
 
     quest_type = "MC"
     field_sep = "\t"
@@ -32,14 +37,12 @@ else:
 
     def tworz_pytanie(start, stop):
         """
-        wyodrebnia pytanie z obiektu DataFrame o nazwie cur_arkusz
+        wyodrebnia pytanie z obiektu pd.DataFrame o nazwie cur_arkusz
         i zwraca je jako string w formacie rozpoznawanym przez blackboard
-
         Input:
         ---
         start - Int (inclusive) - indeks (wiersz) gdzie zaczyna sie dane pytanie
         stop - Int (exclusive) - indeks (wiersz) gdzie konczy sie dane pytanie
-
         Output:
         ---
         String - pytanie sformatowane pod blackboarda do wczytania
@@ -69,16 +72,16 @@ else:
 
     for arkusz_id in range(l_arkuszy):
         # wczytuje puste pola jako NaN
-        cur_arkusz = read_excel(
+        cur_arkusz = pd.read_excel(
             io=nazwa_pliku,
             sheet_name=arkusz_id,
             usecols=nazwy_kol,
             na_values="",
         )
-        cur_arkusz = cur_arkusz.replace(nan, "", regex=True)
+        cur_arkusz = cur_arkusz.replace(np.nan, "", regex=True)
 
         # wybieramy niepuste pytania, tj. te wiersze gdzie
-        # kolumna "odpowiedzi" lub komorka "treść pytania" nie jest pusta
+        # kolumna "odpowiedzi" nie jest pusta
         niepuste = []
         for i in range(cur_arkusz.shape[0]):
             # str() bo w odp moga byc same cyferki (inty, floaty)
@@ -90,7 +93,7 @@ else:
             ):
                 niepuste.append(i)
         cur_arkusz = cur_arkusz.iloc[niepuste, :]  # wybranie niepustych
-        # reset indeksu, cyferki po kolei wym. przez DataFrame.loc[] ponizej
+        # reset indeksu, cyferki po kolei wym. przez pd.DataFrame.loc[] ponizej
         cur_arkusz = cur_arkusz.reset_index()
 
         # wybieramy indeksy poczatkow pytan
