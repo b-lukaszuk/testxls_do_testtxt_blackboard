@@ -20,6 +20,14 @@ import sys
 import codecs
 
 
+def usunTabyNewLiney(tekst):
+    co = ["\n", "\t"]
+    czym = " "
+    for symbol in co:
+        tekst = tekst.replace(symbol, czym)
+    return tekst
+
+
 if len(sys.argv) != 3:
     print("Podano nieprawidlowa liczbe argumentow wejsciowych")
     print("Nie wykonano programu. Prosze poprawic input")
@@ -50,15 +58,18 @@ else:
         pytanie = (
             quest_type
             + field_sep
-            + cur_arkusz.loc[start, "treść pytania"]
+            + usunTabyNewLiney(cur_arkusz.loc[start, "treść pytania"])
             + field_sep
-        )
+        )  # tu beda doklejane odpowiedzi
         for i in range(start, stop):
             # str(), bo w odpowiedzi moga byc same cyferki (inty, floaty)
             # wstaw jesli pole z odpowiedzia nie jest puste
             if str(cur_arkusz.loc[i, "odpowiedzi"]).strip() != "":
                 pytanie += (
-                    str(cur_arkusz.loc[i, "odpowiedzi"]).strip() + field_sep
+                    usunTabyNewLiney(
+                        str(cur_arkusz.loc[i, "odpowiedzi"]).strip()
+                    )
+                    + field_sep
                 )
                 if cur_arkusz.loc[i, "prawidłowa*"] == 1:
                     pytanie += "correct" + field_sep
