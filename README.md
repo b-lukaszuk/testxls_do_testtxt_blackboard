@@ -30,5 +30,19 @@ popros o pomoc autora :)
 Po utworzeniu testu w blackboardzie, wczytujemy pliki z pytaniami
 po kliknieciu "Import" ("Przekaż pytania"), a potem "Submit" ("Wyślij")
 
+# Requirements
+
+Plik `requirements.txt` utworzono komenda
+
+```bash
+pip freeze > requirements.txt
+```
+
+Przy nowym uzyciu (po sciagnieciu repozytorium z githuba) potrzebne paczki instalujemy komenda
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Do użytku własnego, nie powinno być używane przez nikogo innego.
 ## For personal use only, should not be used by anyone else.
