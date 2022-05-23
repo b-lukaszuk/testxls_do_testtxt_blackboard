@@ -4,21 +4,21 @@ Program pisany na kolanie na prosbe (ladna) E.Z,
 nie optymalizowany,
 
 program wczytuje plik_xls z pytaniami i tworzy pliki *.md
-(po 1 dla kazdego arkusza) a z nich uzywajac [pandoc](https://pandoc.org/) od *.doc
+(po 1 dla kazdego arkusza) a z nich uzywajac [pandoc](https://pandoc.org/) od *.docx
 
 Zawartosc:
 - test_format_uproszczony.xlsx - schemat wstawiania pytan testowych
-- xls_do_doc.py - plik programu w jezyku Python (ver. 3.8.5)
+- xls_do_docx.py - plik programu w jezyku Python (ver. 3.8.5)
 
 
 Wywolanie z bash-a:
 ```bash
-python3.8 xls_do_doc.py plik_xlsx ile_arkuszy
+python3.8 xls_do_docx.py plik_xlsx ile_arkuszy
 ```
 
 Output:
-- arkusz0.md, arkusz0.doc
-- arkusz1.md, arkusz1.doc
+- arkusz0.md, arkusz0.docx
+- arkusz1.md, arkusz1.docx
 - ...
 
 Program (*.py) powinien dzialac poprawnie, ale nie udzielam zadnych gwarancji

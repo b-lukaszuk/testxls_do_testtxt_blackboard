@@ -10,63 +10,82 @@
 #          python3.8.5 xls_do_blackboard.py plik_xlsx ile_arkuszy
 ###############################################################################
 
-# dzis: 2020-12-01
+# dzis: 2022-05-23
 # uzyto Python 3.8.5
-# pisano w Emacs >= 26
+# pisano w Emacs >= 27
 # na GNU/Linux Mint
 
-import pandas as pd
-import numpy as np
-import sys
 import codecs
+import numpy as np
+import pandas as pd
+import subprocess
+import sys
+from string import ascii_uppercase
 
 if len(sys.argv) != 3:
     print("Podano nieprawidlowa liczbe argumentow wejsciowych")
     print("Nie wykonano programu. Prosze poprawic input")
 else:
-    # z dokumentacji wynika, ze ma byc tab-delimited text file
-    # bez header row, bez blank linesow miedzy wierszami
-    # 1 pole w wierszu okresla typ pytania, pola oddzielone TAB
-    # przyklad (spacje wstawiono dla lepszej czytelnosci):
-    # MC TAB questText TAB answ1Text TAB correct|incorrect TAB answ2Text TAB correct|incorrect
+    quest_sep = "\n"
+    answer_sep = "\n"
 
-    quest_type = "MC"
-    field_sep = "\t"
-    cor_answ = "correct"
-    wrong_answ = "incorrect"
+    def removeTabsNewLines(tekst):
+        what = ["\n", "\t"]
+        with_what = " "
+        for symbol in what:
+            tekst = tekst.replace(symbol, with_what)
+            return tekst
 
-    def tworz_pytanie(start, stop):
+    def getBoldText(text):
+        return "**" + text + "**"  # markdown bold
+
+    def getFormattedQuestion(text):
+        return getBoldText(text) + quest_sep
+
+    def getFormattedAnswer(letter, text, is_correct):
+        result = getBoldText(letter + ")") + " " + text
+        # underlining, that would be exporterd md -> docx by pandoc
+        if is_correct:
+            result = '<span class="underline">' + result + "</span>"
+        return result
+
+    def getQuestionWithAnswers(start, stop):
         """
         wyodrebnia pytanie z obiektu DataFrame o nazwie cur_arkusz
-        i zwraca je jako string w formacie rozpoznawanym przez blackboard
+        i zwraca je jako string w formacie markdown
 
         Input:
         ---
-        start - Int (inclusive) - indeks (wiersz) gdzie zaczyna sie dane pytanie
+        start - Int (inclusive) - indeks (wiersz) gdzie zaczyna sie pytanie
         stop - Int (exclusive) - indeks (wiersz) gdzie konczy sie dane pytanie
 
         Output:
         ---
         String - pytanie sformatowane pod blackboarda do wczytania
         """
-        pytanie = (
-            quest_type
-            + field_sep
-            + cur_arkusz.loc[start, "treść pytania"]
-            + field_sep
-        )
+
+        # tu najpierw idzie pytanie, a potem doklejona beda odpowiedzi
+        pytanie = removeTabsNewLines(cur_arkusz.loc[start, "treść pytania"])
+        pytanie = getFormattedQuestion(pytanie)
+
+        letterId = 0
+
         for i in range(start, stop):
             # str(), bo w odpowiedzi moga byc same cyferki (inty, floaty)
             # wstaw jesli pole z odpowiedzia nie jest puste
             if str(cur_arkusz.loc[i, "odpowiedzi"]).strip() != "":
                 pytanie += (
-                    str(cur_arkusz.loc[i, "odpowiedzi"]).strip() + field_sep
+                    "\n"
+                    + getFormattedAnswer(
+                        ascii_uppercase[letterId],
+                        str(cur_arkusz.loc[i, "odpowiedzi"]).strip(),
+                        cur_arkusz.loc[i, "prawidłowa*"] == 1,
+                    )
+                    + answer_sep
                 )
-                if cur_arkusz.loc[i, "prawidłowa*"] == 1:
-                    pytanie += "correct" + field_sep
-                else:
-                    pytanie += "incorrect" + field_sep
-        return pytanie + "\n"
+                letterId += 1
+        # "\n\\\n\\\n" oddziel. od siebie pytan md->docx (eksport przez pandoc)
+        return pytanie + "\n\\\n\\\n"
 
     nazwa_pliku = sys.argv[1]
     l_arkuszy = int(sys.argv[2])
@@ -74,13 +93,13 @@ else:
 
     for arkusz_id in range(l_arkuszy):
         # wczytuje puste pola jako NaN
-        cur_arkusz = read_excel(
+        cur_arkusz = pd.read_excel(
             io=nazwa_pliku,
             sheet_name=arkusz_id,
             usecols=nazwy_kol,
             na_values="",
         )
-        cur_arkusz = cur_arkusz.replace(nan, "", regex=True)
+        cur_arkusz = cur_arkusz.replace(np.nan, "", regex=True)
 
         # wybieramy niepuste pytania, tj. te wiersze gdzie
         # kolumna "odpowiedzi" lub komorka "treść pytania" nie jest pusta
@@ -109,14 +128,31 @@ else:
         tekst_wynikowy = ""
         # -1, bo pod tym indeksem (row) jest koncowka ost pytania (ost odp)
         for i in range(len(pocz_pytan) - 1):
-            tekst_wynikowy += tworz_pytanie(
+            tekst_wynikowy += getQuestionWithAnswers(
                 start=pocz_pytan[i], stop=pocz_pytan[i + 1]
             )
+        # usuniecie niepotrzebnych znakow ("\n") po ostatnim pytaniu
+        tekst_wynikowy = tekst_wynikowy[:-4]
 
         # zapisywanie pliku
         # kodowanie polskich znakow, aby blackboard to odczytal
-        f = codecs.open("arkusz" + str(arkusz_id) + ".txt", "w", "utf-16")
+        f = codecs.open("arkusz" + str(arkusz_id) + ".md", "w", "utf-8")
         f.write(tekst_wynikowy)
         f.close()
 
-    print("utworzono plik(i) TXT do blackboard-a")
+        # zapisywanie/eksport do *.docx przez pandoc-a
+        subprocess.run(
+            [
+                "pandoc",
+                "-o",
+                "arkusz" + str(arkusz_id) + ".docx",
+                "-f",
+                "markdown",
+                "-t",
+                "docx",
+                "arkusz" + str(arkusz_id) + ".md",
+                "--wrap=preserve",
+            ]
+        )
+
+    print("utworzono plik(i) *.md i *.docx")
