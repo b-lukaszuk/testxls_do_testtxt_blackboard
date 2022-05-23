@@ -10,9 +10,9 @@
 #          python3.8.5 xls_do_blackboard.py plik_xlsx ile_arkuszy
 ###############################################################################
 
-# dzis: 2020-12-01
+# dzis: 2022-05-23
 # uzyto Python 3.8.5
-# pisano w Emacs >= 26
+# pisano w Emacs >= 27
 # na GNU/Linux Mint
 
 import codecs
