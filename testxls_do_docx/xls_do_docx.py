@@ -4,8 +4,8 @@
 ################################################################################
 #              program pisany na kolanie na prosbe (ladna) E.Z
 #                           nie optymalizowany
-#       program wczytuje plik_xls z pytaniami i tworzy pliki *.txt
-#        (po 1 dla kazdego arkusza) do wczytania przez Blackboard
+#       program wczytuje plik_xls z pytaniami i tworzy pliki *.md
+#        (po 1 dla kazdego arkusza) a potem *.docx (przez pandoca)
 #                          wywolanie z bash-a:
 #          python3.8.5 xls_do_blackboard.py plik_xlsx ile_arkuszy
 ###############################################################################
