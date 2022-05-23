@@ -15,6 +15,11 @@
 # pisano w Emacs >= 26
 # na GNU/Linux Mint
 
+import pandas as pd
+import numpy as np
+import sys
+import codecs
+
 if len(sys.argv) != 3:
     print("Podano nieprawidlowa liczbe argumentow wejsciowych")
     print("Nie wykonano programu. Prosze poprawic input")
