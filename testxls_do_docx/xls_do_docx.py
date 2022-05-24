@@ -15,6 +15,13 @@
 # pisano w Emacs >= 27
 # na GNU/Linux Mint
 
+import codecs
+import numpy as np
+import pandas as pd
+import subprocess
+import sys
+from string import ascii_uppercase
+
 if len(sys.argv) != 3:
     print("Podano nieprawidlowa liczbe argumentow wejsciowych")
     print("Nie wykonano programu. Prosze poprawic input")

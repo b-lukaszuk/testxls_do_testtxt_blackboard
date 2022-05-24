@@ -3,7 +3,6 @@
 Program pisany na kolanie na prosbe (ladna) E.Z,
 nie optymalizowany,
 
-program wczytuje plik_xls z pytaniami i tworzy pliki *.md
 (po 1 dla kazdego arkusza) a z nich uzywajac [pandoc](https://pandoc.org/) tworzy *.docx
 
 Zawartosc:
