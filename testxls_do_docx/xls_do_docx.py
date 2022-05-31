@@ -154,5 +154,6 @@ else:
                 "--wrap=preserve",
             ]
         )
+        print("writing arkusz" + str(arkusz_id) + " to docx")
 
     print("utworzono plik(i) *.md i *.docx")
