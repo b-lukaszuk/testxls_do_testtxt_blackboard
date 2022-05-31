@@ -127,5 +127,6 @@ else:
         f = codecs.open("arkusz" + str(arkusz_id) + ".txt", "w", "utf-16")
         f.write(tekst_wynikowy)
         f.close()
+        print("utworzono plik arkusz" + str(arkusz_id) + ".txt")
 
     print("utworzono plik(i) TXT do blackboard-a")
