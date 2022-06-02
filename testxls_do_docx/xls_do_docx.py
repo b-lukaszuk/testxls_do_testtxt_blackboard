@@ -84,8 +84,8 @@ else:
                     + answer_sep
                 )
                 letterId += 1
-        # "\n\\\n\\\n" oddziel. od siebie pytan md->docx (eksport przez pandoc)
-        return pytanie + "\n\\\n\\\n"
+        # "\n\\\n" oddziel. od siebie pytan md->docx (eksport przez pandoc)
+        return pytanie + "\n\\\n"
 
     nazwa_pliku = sys.argv[1]
     l_arkuszy = int(sys.argv[2])
@@ -152,6 +152,7 @@ else:
                 "docx",
                 "arkusz" + str(arkusz_id) + ".md",
                 "--wrap=preserve",
+                "--reference-doc=reference.docx",
             ]
         )
         print("writing arkusz" + str(arkusz_id) + " to docx")
