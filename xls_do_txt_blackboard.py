@@ -25,7 +25,7 @@ def usunTabyNewLiney(tekst):
     czym = " "
     for symbol in co:
         tekst = tekst.replace(symbol, czym)
-    return tekst
+    return tekst.strip()
 
 
 if len(sys.argv) != 3:

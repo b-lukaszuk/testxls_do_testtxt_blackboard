@@ -34,7 +34,7 @@ else:
         with_what = " "
         for symbol in what:
             tekst = tekst.replace(symbol, with_what)
-            return tekst
+            return tekst.strip()
 
     def getBoldText(text):
         return "**" + text + "**"  # markdown bold
