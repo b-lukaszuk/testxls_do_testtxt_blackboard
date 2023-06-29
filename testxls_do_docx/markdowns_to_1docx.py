@@ -7,18 +7,27 @@
 # na GNU/Linux Mint
 
 import codecs
-import subprocess
 import os
+import re
+import subprocess
 
 together = ""
 
-for file in os.listdir("./"):
-    if file.startswith("arkusz") and file.endswith("md"):
-        curFile = codecs.open(file, "r", "utf-8")
-        together += (
-            file.replace(".md", "").upper() + "\n\n" + curFile.read() + "\n\n"
-        )
-        curFile.close()
+
+def getIntFromStr(file_name):
+    return int(re.search(r'[0-9]+', file_name)[0])
+
+
+md_files = [f for f in os.listdir(
+    "./") if (f.startswith("arkusz") and f.endswith("md"))]
+md_files.sort(key=getIntFromStr)
+
+for file in md_files:
+    curFile = codecs.open(file, "r", "utf-8")
+    together += (
+        file.replace(".md", "").upper() + "\n\n" + curFile.read() + "\n\n"
+    )
+    curFile.close()
 
 # zapisywanie pliku glownego
 f = codecs.open("all_together.md", "w", "utf-8")
