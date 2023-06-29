@@ -14,12 +14,19 @@ import subprocess
 together = ""
 
 
-def getIntFromStr(file_name):
-    return int(re.search(r'[0-9]+', file_name)[0])
+def getIntFromStr(file_name: str) -> int:
+    search_result = re.search(r"[0-9]+", file_name)
+    if search_result is None:
+        return -99
+    else:
+        return int(search_result[0])
 
 
-md_files = [f for f in os.listdir(
-    "./") if (f.startswith("arkusz") and f.endswith("md"))]
+md_files = [
+    f
+    for f in os.listdir("./")
+    if (f.startswith("arkusz") and f.endswith("md"))
+]
 md_files.sort(key=getIntFromStr)
 
 for file in md_files:

@@ -20,7 +20,7 @@ import sys
 import codecs
 
 
-def usunTabyNewLiney(tekst):
+def usunTabyNewLiney(tekst: str) -> str:
     co = ["\n", "\t"]
     czym = " "
     for symbol in co:
@@ -43,7 +43,7 @@ else:
     cor_answ = "correct"
     wrong_answ = "incorrect"
 
-    def tworz_pytanie(start, stop):
+    def tworz_pytanie(start: int, stop: int) -> str:
         """
         wyodrebnia pytanie z obiektu pd.DataFrame o nazwie cur_arkusz
         i zwraca je jako string w formacie rozpoznawanym przez blackboard
@@ -55,7 +55,7 @@ else:
         ---
         String - pytanie sformatowane pod blackboarda do wczytania
         """
-        pytanie = (
+        pytanie: str = (
             quest_type
             + field_sep
             + usunTabyNewLiney(cur_arkusz.loc[start, "treść pytania"])

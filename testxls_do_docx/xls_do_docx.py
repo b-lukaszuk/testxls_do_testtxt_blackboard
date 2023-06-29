@@ -29,27 +29,27 @@ else:
     quest_sep = "\n"
     answer_sep = "\n"
 
-    def removeTabsNewLines(tekst):
+    def removeTabsNewLines(tekst: str) -> str:
         what = ["\n", "\t"]
         with_what = " "
         for symbol in what:
             tekst = tekst.replace(symbol, with_what)
-            return tekst.strip()
+        return tekst.strip()
 
-    def getBoldText(text):
+    def getBoldText(text: str) -> str:
         return "**" + text + "**"  # markdown bold
 
-    def getFormattedQuestion(text):
+    def getFormattedQuestion(text: str) -> str:
         return getBoldText(text) + quest_sep
 
-    def getFormattedAnswer(letter, text, is_correct):
+    def getFormattedAnswer(letter: str, text: str, is_correct: bool) -> str:
         result = getBoldText(letter + ")") + " " + text
         # underlining, that would be exporterd md -> docx by pandoc
         if is_correct:
             result = '<span class="underline">' + result + "</span>"
         return result
 
-    def getQuestionWithAnswers(start, stop):
+    def getQuestionWithAnswers(start: int, stop: int) -> str:
         """
         wyodrebnia pytanie z obiektu DataFrame o nazwie cur_arkusz
         i zwraca je jako string w formacie markdown
@@ -65,7 +65,9 @@ else:
         """
 
         # tu najpierw idzie pytanie, a potem doklejona beda odpowiedzi
-        pytanie = removeTabsNewLines(cur_arkusz.loc[start, "treść pytania"])
+        pytanie: str = removeTabsNewLines(
+            cur_arkusz.loc[start, "treść pytania"]
+        )
         pytanie = getFormattedQuestion(pytanie)
 
         letterId = 0
